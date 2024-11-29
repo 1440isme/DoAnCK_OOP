@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <ctime>
 using namespace std;
 
 class DateTime {
@@ -26,7 +27,6 @@ public:
     bool isValid() const {
         if (year < 0 || month < 1 || month > 12 || day < 1 || day > 31 || hour < 0 || hour >= 24 || minute < 0 || minute >= 60)
             return false;
-        // Kiểm tra số ngày trong từng tháng
         if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)
             return false;
         if (month == 2) {
@@ -46,30 +46,29 @@ public:
             return true;
         return false;
     }
+
     DateTime getCurrentDate() {
-    time_t now = time(0);
-    tm *ltm = localtime(&now);
+        time_t now = time(0);
+        tm *ltm = localtime(&now);
 
-    static DateTime currentDate(
-        ltm->tm_mday,
-        1 + ltm->tm_mon,
-        1900 + ltm->tm_year,
-        ltm->tm_hour,
-        ltm->tm_min
-    );
+        static DateTime currentDate(
+            ltm->tm_mday,
+            1 + ltm->tm_mon,
+            1900 + ltm->tm_year,
+            ltm->tm_hour,
+            ltm->tm_min
+        );
 
-    return currentDate;
+        return currentDate;
     }
 
     int calculateDaysDifference(const DateTime &end, const DateTime &current) {
-    // Đơn giản hóa bằng cách chuyển đổi năm/tháng/ngày thành số ngày tổng
-    auto toDays = [](const DateTime &dt) {
-        return dt.year * 365 + dt.month * 30 + dt.day;
-    };
+        auto toDays = [](const DateTime &dt) {
+            return dt.year * 365 + dt.month * 30 + dt.day;
+        };
 
-    return toDays(current) - toDays(end);
+        return toDays(current) - toDays(end);
     }
-
 };
 
 #endif

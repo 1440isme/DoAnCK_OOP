@@ -1,6 +1,7 @@
 #include <iostream>
 #include "DateTime.h"
 using namespace std;
+
 class Repayment
 {
 private:
@@ -8,21 +9,10 @@ private:
     int loanID;
     double amount;
     DateTime date;
-    
-public:
-    
-    Repayment()
-    {
-        loanID = 0;
-        amount = 0;
-        date.day = 0;
-        date.month = 0;
-        date.year = 0;
-        date.hour = 0;
-        date.minute = 0;
 
-    }
-    ;
+public:
+    Repayment() : repaymentID(0), loanID(0), amount(0), date() {}
+
     void getRepaymentDetails()
     {
         cout << "Enter repayment ID: ";
@@ -31,9 +21,14 @@ public:
         cin >> loanID;
         cout << "Enter amount: ";
         cin >> amount;
-        cout << "Enter date: ";
+        cout << "Enter date (day month year hour minute): ";
         cin >> date.day >> date.month >> date.year >> date.hour >> date.minute;
+        if (!date.isValid()) {
+            cout << "Invalid date entered. Please try again." << endl;
+            getRepaymentDetails();
+        }
     }
+
     void setRepaymentID(int id) { repaymentID = id; }
     int getRepaymentID() const { return repaymentID; }
     void setLoanID(int id) { loanID = id; }
@@ -44,15 +39,14 @@ public:
     DateTime getDate() const { return date; }
 
     void displayRepaymentDetails() const {
-    cout << "Repayment ID: " << repaymentID << endl;
-    cout << "Loan ID: " << loanID << endl;
-    cout << "Amount: " << amount << endl;
-    cout << "Date: " << date.toString() << endl;
+        cout << "Repayment ID: " << repaymentID << endl;
+        cout << "Loan ID: " << loanID << endl;
+        cout << "Amount: " << amount << endl;
+        cout << "Date: " << date.toString() << endl;
     }
 
     ~Repayment()
     {
         cout << "Repayment object destroyed" << endl;
     }
-    
 };

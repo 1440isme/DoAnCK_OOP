@@ -28,23 +28,8 @@ private:
     User user;
     list<Repayment> repaymentHistory;
 public:
-    Loan()
-    {
-        loanID = "";
-        lender = "";
-        borrower = "";
-        amount = 0;
-        interestRate = 0;
-        startDate.day = 0;
-        startDate.month = 0;
-        startDate.year = 0;
-        endDate.day = 0;
-        endDate.month = 0;
-        endDate.year = 0;
-        status = "";
-        isLoan = false;
-        note = "";
-    }
+    Loan() : loanID(""), lender(""), borrower(""), amount(0), interestRate(0), startDate(), endDate(), status(""), isLoan(false), note("") {}
+
     list<Repayment> getRepaymentSchedule()
     {
         list<Repayment> repaymentSchedule;
@@ -102,16 +87,15 @@ public:
         }
     }
     void sendReminder() {
-    // Giả định bạn đã có hàm lấy ngày hiện tại trong DateTime
-    DateTime currentDate = getCurrentDate();
-    int daysOverdue = calculateDaysDifference(endDate, currentDate);
+        DateTime currentDate = DateTime().getCurrentDate();
+        int daysOverdue = currentDate.calculateDaysDifference(endDate, currentDate);
 
-    if (daysOverdue > 15) {
-        cout << "Loan ID: " << loanID << " is overdue by " << daysOverdue << " days!" << endl;
-        cout << "Reminder sent to borrower: " << borrower << endl;
-    } else {
-        cout << "Loan ID: " << loanID << " is not overdue yet." << endl;
-    }
+        if (daysOverdue > 15) {
+            cout << "Loan ID: " << loanID << " is overdue by " << daysOverdue << " days!" << endl;
+            cout << "Reminder sent to borrower: " << borrower << endl;
+        } else {
+            cout << "Loan ID: " << loanID << " is not overdue yet." << endl;
+        }
     }
 
     void displayRepaymentHistory() const {
